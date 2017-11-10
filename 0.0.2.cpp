@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-void move(double *array, int size, int move) {
+void shift(double *array, int size, int move) {
     double *array_B = new double[size - move];
     double *array_C = new double[move];
     for (unsigned int i = 0; i < size; ++i) {
@@ -39,7 +39,7 @@ bool read(double *array, unsigned int size){
     istringstream stream(stroka);
     for (unsigned int i = 0; i<size; ++i){
         if (!(stream >> array[i])){
-            cout << "error" << endl;
+            cout << "An error has occured while reading input data." << endl;
             return false;
 
         }
@@ -52,19 +52,29 @@ bool read(double *array, unsigned int size){
 }
 
 int main(){
-    unsigned int size;
-    cin >> size;
-    cin.get();
-    double *array = new double[size];
-    if (read(array, size)){
-        int move;
-        move(array, size, move);
-        for (unsigned int i = 0; i<size; ++i)
-            cout << array[i] << " ";
+    int size;
+    string s;
+    getline(cin, s);
+    istringstream stream(s);
+    if(!(stream>>size)||(size<0)){
+        cout<<"An error has occured while reading input data."<<endl;
+        return -1;
     }
-    else {
-        cout << "An error has occured while reading input data.";
+    double *array=new double[size];
+    if(read(array, size)){
+        int move;
+        string s1;
+        getline(cin, s1);
+        istringstream stream1(s1);
+        if(!(stream1>>move)||(move<0)) {
+            cout << "An error has occured while reading input data." << endl;
+            return -2;
+        }
+        shift(array, size, move);
+        for(unsigned int i=0; i<size; ++i){
+            cout<<array[i]<<" ";
+        }
     }
     delete[]array;
     return 0;
-    }
+}
